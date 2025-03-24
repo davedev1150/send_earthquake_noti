@@ -131,41 +131,28 @@ async function getEarthquakeData() {
       console.log("New earthquake events detected:");
       console.log(newEvents);
 
-      let massage = "";
-      newEvents.map(async (item) => {
-        const result = isWithinRadius(
-          centerLat,
-          centerLng,
-          parseFloat(item.lat),
-          parseFloat(item.lng),
-          radius
-        );
-        if (item.magnitude >= 4 || result.withinRadius || true) {
-          console.log(
-            "New earthquake events magnitude >= 4 || within radius 500Km:"
+      const formattedMessage = newEvents
+        .map((item) => {
+          const result = isWithinRadius(
+            centerLat,
+            centerLng,
+            parseFloat(item.lat),
+            parseFloat(item.lng),
+            radius
           );
-          const text = `\n\n${EmojiRedCir}Date: ${item.date_time}\nMagnitude: ${
-            item.magnitude
-          }\nDepth: ${item.depth}\nCenter: ${
-            item.center
-          }\nDistance: ${parseFloat(result.distance).toFixed(
-            1
-          )} KM\nLink: ${DOMAIN_NAME}/${item.inside_info_value}`;
-          massage += text;
-        } else {
-          const text = `\n\n${EmojiRedCir}Date: ${item.date_time}\nMagnitude: ${
-            item.magnitude
-          }\nDepth: ${item.depth}\nCenter: ${
-            item.center
-          }\nDistance: ${parseFloat(result.distance).toFixed(
-            1
-          )} KM\nLink: ${DOMAIN_NAME}/${item.inside_info_value}`;
-          massage += text;
-        }
-      });
-      if (massage.length > 0) {
-        console.log("massage", massage);
-        await sendAdaptiveCardToTeams(webhook_url, massage);
+
+          return `---\n**📅 Date/Time:** ${item.date_time}  
+          **💥 Magnitude:** ${item.magnitude}  
+          **📌 Depth:** ${item.depth}  
+          **📍 Center:** ${item.center}  
+          **🛰 Distance:** ${parseFloat(result.distance).toFixed(1)} KM  
+          [🌐 Click for details](${DOMAIN_NAME}/${item.inside_info_value})`;
+        })
+        .join("\n\n");
+
+      if (formattedMessage.length > 0) {
+        console.log("massage", formattedMessage);
+        await sendAdaptiveCardToTeams(webhook_url, formattedMessage);
       }
     } else {
       console.log("No new earthquake events.");
