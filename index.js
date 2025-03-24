@@ -203,26 +203,24 @@ async function sendAdaptiveCardToTeams(webhookUrl, message) {
   const adaptiveCardJson = {
     "@type": "MessageCard",
     "@context": "http://schema.org/extensions",
-    summary: `🌍Eartquake Alert💥`,
+    summary: "🌍 Earthquake Alert 💥",
     themeColor: "FF0000",
     sections: [
       {
-        activityTitle:
-          "🚨 <font color='#992900'><b>**Eartquake Alert**</b></font>",
-        facts: [{ value: message }],
+        activityTitle: "**🚨 Earthquake Alert**",
+        text: message,
         markdown: true,
       },
     ],
   };
 
   try {
-    const response = await axios.post(webhookUrl, adaptiveCardJson);
+    await axios.post(webhookUrl, adaptiveCardJson);
     console.log("Adaptive card notification sent successfully.");
   } catch (error) {
     console.error(`Failed to send adaptive card: ${error}`);
   }
 }
-
 // Set the time interval (in milliseconds) for periodic execution
 const interval = 15 * 60 * 1000; // 15 minute
 getEarthquakeData();
