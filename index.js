@@ -8,7 +8,7 @@ const centerLng = 101.56066; // Example center longitude
 const radius = 500; // Radius in kilometers
 const LINE_NOTIFY_ACCESS_TOKEN = "hCCDUEMUbYWDWmYln9LubNa6CkmfuGZLCrDoKSsv8zz"; // Replace with your actual LINE Notify access token
 const webhook_url =
-  "https://teamgrouppcl.webhook.office.com/webhookb2/c6cb0e26-e275-4b88-8f81-108a668ec06c@e13fef33-a530-4c08-b4d5-2e4711280b4d/IncomingWebhook/52c1f551509f424ea72dd7965f659295/dd59822a-dd77-48a9-b011-21c03af65368/V2mfv6qafKkzygJewXjW5HGtTN90yOm1u2drSsq-U5bkk1";
+  "https://prod-56.southeastasia.logic.azure.com:443/workflows/219b5626d2e7482383d6dd5b3869ac66/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=igqDpJebvOAGs9I6vmJeG3TLR-7xL-CGivrKdwuKMdU";
 const DOMAIN_NAME = "https://earthquake.tmd.go.th";
 let EmojiRedCir = String.fromCodePoint(parseInt(0x0001f534));
 function calculateHaversineDistance(centerLat, centerLng, pointLat, pointLng) {
@@ -163,7 +163,7 @@ async function getEarthquakeData() {
     return earthquakes.slice(1, earthquakes.length - 2);
   } catch (error) {
     console.error(`Error fetching and parsing data: ${error}`);
-    await sendAdaptiveCardToTeams(webhook_url, "Error earthquake fetching");
+    //await sendAdaptiveCardToTeams(webhook_url, "Error earthquake fetching");
   }
 }
 async function sendLineNotification(message) {
